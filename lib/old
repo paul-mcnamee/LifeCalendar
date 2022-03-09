@@ -1,0 +1,152 @@
+import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
+
+void main() => runApp(NameGenerator());
+
+String capitalizeWord(String word) {
+  String firstCap = word.characters.first.toUpperCase();
+  for (var i = 0; i < word.length; i++) {
+    if (i == 0) {
+      continue;
+    }
+    firstCap += word[i];
+  }
+  return firstCap;
+}
+
+String displayWordPair(WordPair pair, int? index) {
+   String indexDisplay = index == null ? "" : index.toString();
+  return capitalizeWord(pair.first) + " " + capitalizeWord(pair.second)
+      + " " + indexDisplay;
+}
+
+class NameGenerator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Name Generator',
+      theme: ThemeData(
+        primaryColor: Colors.teal,
+        backgroundColor: Colors.black45,
+        colorScheme: ColorScheme.dark()
+      ),
+      home: RandomWords(),
+    );
+  }
+}
+
+class RandomWords extends StatefulWidget {
+  const RandomWords({Key? key}) : super(key: key);
+
+  @override
+  _RandomWordsState createState() => _RandomWordsState();
+}
+
+class _RandomWordsState extends State<RandomWords> {
+  final _suggestions = <WordPair>[];
+  final _saved = <WordPair>{};
+  final _biggerFont = const TextStyle(fontSize: 16, color: Colors.black45);
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          final tiles = _saved.map(
+                (WordPair pair) {
+              return ListTile(
+                title: Text(
+                  displayWordPair(pair, null),
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+          final divided = tiles.isNotEmpty
+              ? ListTile.divideTiles(context: context, tiles: tiles).toList()
+              : <Widget>[];
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('Saved Suggestions'),
+            ),
+            body: ListView(children: divided),
+          );
+        },
+      ),
+    );
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Name Generator'),
+        actions: [
+          IconButton(onPressed: _pushSaved, icon: Icon(Icons.list))
+        ],
+      ),
+      body: _buildSuggestions(),
+    );
+  }
+
+
+  Widget _buildRow(WordPair pair, int index) {
+    final alreadySaved = _saved.contains(pair);
+    var first = pair.first;
+
+    return ListTile(
+      title: Text(
+        (displayWordPair(pair, index)),
+        style: _biggerFont,
+      ),
+      trailing: Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red : Colors.black45,
+      ),
+      onTap: () {
+        setState(() {
+          if (alreadySaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      },
+      tileColor: index.isOdd ? Colors.white70 : Colors.white,
+    );
+  }
+
+  Widget _buildSuggestions() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(16),
+        // The itemBuilder callback is called once per suggested
+        // word pairing, and places each suggestion into a ListTile
+        // row. For even rows, the function adds a ListTile row for
+        // the word pairing. For odd rows, the function adds a
+        // Divider widget to visually separate the entries. Note that
+        // the divider may be difficult to see on smaller devices.
+        itemBuilder: (BuildContext _context, int i) {
+          // Add a one-pixel-high divider widget before each row
+          // in the ListView.
+          if (i.isOdd) {
+            return Divider(thickness: 1, color: Colors.black26,);
+          }
+
+          // The syntax "i ~/ 2" divides i by 2 and returns an
+          // integer result.
+          // For example: 1, 2, 3, 4, 5 becomes 0, 1, 1, 2, 2.
+          // This calculates the actual number of word pairings
+          // in the ListView,minus the divider widgets.
+          final int index = i ~/ 2;
+          // If you've reached the end of the available word
+          // pairings...
+          if (index >= _suggestions.length) {
+            // ...then generate 10 more and add them to the
+            // suggestions list.
+            _suggestions.addAll(generateWordPairs().take(10));
+          }
+          return _buildRow(_suggestions[index], index);
+        });
+  }
+}

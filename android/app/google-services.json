@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "776002757338",
+    "project_id": "lifecalendar-e08cd",
+    "storage_bucket": "lifecalendar-e08cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776002757338:android:b4a665eaa2e17c586bfbe3",
+        "android_client_info": {
+          "package_name": "com.FourthMouse.life_calendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776002757338-imv8ad7qpjs49bctep6e6b359gmr1hhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiWIJIEdMpigYQ5O7FE-iRFho1FK9ng_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776002757338-imv8ad7qpjs49bctep6e6b359gmr1hhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776002757338:android:37acef15d1eb0b746bfbe3",
+        "android_client_info": {
+          "package_name": "com.fourthmouse.lifecalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776002757338-imv8ad7qpjs49bctep6e6b359gmr1hhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiWIJIEdMpigYQ5O7FE-iRFho1FK9ng_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776002757338-imv8ad7qpjs49bctep6e6b359gmr1hhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
