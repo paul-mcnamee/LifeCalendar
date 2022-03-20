@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:life_calendar/components/post.dart';
 import 'package:life_calendar/services/authentication.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +12,20 @@ import 'package:life_calendar/components/app_drawer.dart';
 import 'package:life_calendar/components/globals.dart';
 import 'package:life_calendar/components/snackbar.dart';
 import 'package:life_calendar/models/application_state.dart';
-
+import 'package:life_calendar/models/daily_entry_model.dart';
 import 'package:life_calendar/views/settings.dart';
 
 import '../main.dart';
+
+// TODO: need to be able to get a date and load the current post, and then
+//      later we would be updating the post instead of adding a new one
+
+// TODO: add a setting for selecting date format -- test for regional defaults
+DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+NumberFormat numberFormat = NumberFormat("#", "en-us");
+
+// TODO: should get the happiness from the entered data if there is any
+
 
 class DailyEntry extends StatefulWidget {
   const DailyEntry({Key? key}) : super(key: key);
@@ -23,14 +36,50 @@ class DailyEntry extends StatefulWidget {
 
 class _DailyEntryState extends State<DailyEntry> {
   late TextEditingController _controller;
+  late Post post;
+  late double _currentHappinessValue = 50;
+  late bool _impactful = false;
+
+  // TODO: this does not work...
+  @override
+  void didUpdateWidget(covariant DailyEntry oldWidget) {
+    setState(() {
+      _impactful = post.impactful;
+      _currentHappinessValue = post.rating;
+      _controller.text = post.entry;
+    });
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   void initState() {
-    super.initState();
     _controller = TextEditingController();
     loadUserSettings().then((void v) {
       _controller.text = currentUserSettings.dailyEntryTemplate;
     });
+    // Get the current day entry from firebase
+    FirebaseFirestore.instance
+        .collection('posts')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('date', isEqualTo: convertedCurrentDate)
+        .withConverter<Post>(
+            fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
+            toFirestore: (post, _) => post.toJson(),
+          )
+        .limit(1)
+        .get()
+        .then((var snapshot) {
+      if (snapshot.docs.isNotEmpty && snapshot.size > 0) {
+        // if an an entry already exists then update the values
+        setState(() {
+          post = snapshot.docs.first.data();
+          _impactful = post.impactful;
+          _currentHappinessValue = post.rating;
+          _controller.text = post.entry;
+        });
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -38,14 +87,6 @@ class _DailyEntryState extends State<DailyEntry> {
     _controller.dispose();
     super.dispose();
   }
-
-  // TODO: add a setting for selecting date format -- test for regional defaults
-  DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-  NumberFormat numberFormat = NumberFormat("#", "en-us");
-
-  // TODO: should get the happiness from the entered data if there is any
-  double _currentHappinessValue = 50;
-  bool impactful = false;
 
   Widget _currentDay() => Center(
         child: FractionallySizedBox(
@@ -109,13 +150,13 @@ class _DailyEntryState extends State<DailyEntry> {
                           children: [
                             GestureDetector(
                                 child: Icon(
-                                  impactful ? Icons.star : Icons.star_border,
-                                  color: impactful ? Colors.yellow : null,
+                                  _impactful ? Icons.star : Icons.star_border,
+                                  color: _impactful ? Colors.yellow : null,
                                 ),
                                 onTap: () {
                                   setState(() {
-                                    impactful = !impactful;
-                                    var impactfulText = impactful
+                                    _impactful = !_impactful;
+                                    var impactfulText = _impactful
                                         ? "impactful, CONGRATS!"
                                         : "not impactful";
 
@@ -145,7 +186,6 @@ class _DailyEntryState extends State<DailyEntry> {
                         icon: Icon(Icons.send),
                         onPressed: () {
                           setState(() {
-                            // TODO: await firestore update
                             var text = _controller.text;
 
                             ShowSnackBar.normal(
@@ -171,10 +211,11 @@ class _DailyEntryState extends State<DailyEntry> {
                                       width: 300,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          await appState.addEntry(
+                                          await DailyEntryModel().addEntry(
+                                              appState.loginState,
                                               _controller.text,
                                               _currentHappinessValue,
-                                              impactful,
+                                              _impactful,
                                               null);
                                           Navigator.push(
                                             context,
@@ -190,7 +231,7 @@ class _DailyEntryState extends State<DailyEntry> {
                           ],
                         ))
 
-                // Button
+// Button
               ],
             )),
       );

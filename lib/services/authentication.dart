@@ -42,7 +42,7 @@ class Authentication extends StatelessWidget {
       String password,
       void Function(Exception e) error,
       ) registerAccount;
-  final void Function() signOut;
+  final Future<void> Function() signOut;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +84,8 @@ class Authentication extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
-                onPressed: () {
-                  signOut();
+                onPressed: () async {
+                  await signOut();
                 },
                 child: const Text('LOGOUT'),
               ),

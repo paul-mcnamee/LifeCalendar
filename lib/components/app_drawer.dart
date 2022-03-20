@@ -2,11 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:life_calendar/views/daily_entry.dart';
+import 'package:life_calendar/views/entries_7d_view.dart';
 import 'package:life_calendar/views/home.dart';
 import 'package:life_calendar/views/life_calendar_months.dart';
 import 'package:life_calendar/views/life_calendar_weeks.dart';
 import 'package:life_calendar/views/life_calendar_years.dart';
 import 'package:life_calendar/views/settings.dart';
+import 'package:life_calendar/components/entries_7d.dart';
 
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
@@ -28,6 +30,7 @@ Drawer buildDrawer(BuildContext context) {
         ),
         drawerTile(context, 'Home', Home()),
         drawerTile(context, 'Daily Entry', DailyEntry()),
+        drawerTile(context, 'Past Entries (7d)', Entries7dView()),
         // drawerTile(context, 'Current Week', CurrentWeek()),
         // drawerTile(context, 'Current Month', CurrentMonth()),
         // drawerTile(context, 'Current Year', CurrentYear()),
