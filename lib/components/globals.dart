@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:life_calendar/views/settings.dart';
 
 const String appTitle = "Life Calendar";
 
 final currentDate = DateTime.now().toLocal();
+DateTime convertedCurrentDate =
+    new DateTime(currentDate.year, currentDate.month, currentDate.day);
 // TODO: get from user prefs
 var birthday = new DateTime(1989, 12, 12);
 
@@ -36,17 +37,18 @@ String dailyEntryTemplate = "What made you happy today?\n\n"
     "What do you think you could have done better?\n\n";
 
 UserSettings defaultUserSettings = new UserSettings(
-    lifespanYears: lifespanYears,
-    inAppInfoMessagesPaused: inAppInfoMessagesPaused,
-    birthday: birthday,
-    dailyEntryTemplate: dailyEntryTemplate,
-    userId: '',
+  lifespanYears: lifespanYears,
+  inAppInfoMessagesPaused: inAppInfoMessagesPaused,
+  birthday: birthday,
+  dailyEntryTemplate: dailyEntryTemplate,
+  userId: '',
 );
 
 UserSettings currentUserSettings = new UserSettings(
-    lifespanYears: lifespanYears,
-    inAppInfoMessagesPaused: inAppInfoMessagesPaused,
-    birthday: birthday,
-    dailyEntryTemplate: dailyEntryTemplate,
-    userId: '',
+  lifespanYears: lifespanYears,
+  inAppInfoMessagesPaused: inAppInfoMessagesPaused,
+  birthday: birthday,
+  dailyEntryTemplate: dailyEntryTemplate,
+  userId: '',
 );
+

@@ -82,18 +82,18 @@ class _SettingsState extends State<Settings> {
 
   Future<void> updateSetting(String settingName, dynamic newValue) async {
     _userSettings = await FirebaseFirestore.instance
-      .collection('settings')
-      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-      .get();
+        .collection('settings')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
 
     if (_userSettings.docs.isEmpty) {
       addDefaultSettings();
     }
 
     await FirebaseFirestore.instance
-      .collection('settings')
-      .doc(_userSettings.docs.first.id)
-      .set({settingName: newValue}, SetOptions(merge: true));
+        .collection('settings')
+        .doc(_userSettings.docs.first.id)
+        .set({settingName: newValue}, SetOptions(merge: true));
   }
 
   @override
