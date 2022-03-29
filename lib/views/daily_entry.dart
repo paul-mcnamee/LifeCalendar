@@ -24,7 +24,9 @@ DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 NumberFormat numberFormat = NumberFormat("#", "en-us");
 
 class DailyEntry extends StatefulWidget {
-  const DailyEntry({Key? key}) : super(key: key);
+  const DailyEntry({Key? key, required this.inputDate}) : super(key: key);
+
+  final DateTime? inputDate;
 
   @override
   _DailyEntryState createState() => _DailyEntryState();
@@ -52,11 +54,20 @@ class _DailyEntryState extends State<DailyEntry> {
     loadUserSettings().then((void v) {
       _controller.text = currentUserSettings.dailyEntryTemplate;
     });
+
+    DateTime convertedDate;
+
+    if (widget.inputDate != null) {
+        convertedDate = new DateTime(widget.inputDate!.year, widget.inputDate!.month, widget.inputDate!.day);
+      } else {
+      convertedDate = convertedCurrentDate;
+    }
+
     // Get the current day entry from firebase
     FirebaseFirestore.instance
         .collection('posts')
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .where('date', isEqualTo: convertedCurrentDate)
+        .where('date', isEqualTo: convertedDate)
         .withConverter<Post>(
           fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
           toFirestore: (post, _) => post.toJson(),
@@ -84,152 +95,149 @@ class _DailyEntryState extends State<DailyEntry> {
   }
 
   Widget _currentDay() => Center(
-        child: FractionallySizedBox(
-            widthFactor: 0.8,
-            heightFactor: 0.9,
-            alignment: FractionalOffset.center,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      dateFormat.format(currentDate) +
-                          '   -   Day #' +
-                          daysAlive.toString(),
-                      style: TextStyle(fontSize: 24),
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 50)),
-                  ],
-                ),
+    child: FractionallySizedBox(
+      widthFactor: 0.8,
+      heightFactor: 0.9,
+      alignment: FractionalOffset.center,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                dateFormat.format(widget.inputDate ?? currentDate) +
+                    '   -   Day #' +
+                    daysAlive.toString(),
+                style: TextStyle(fontSize: 24),
+              ),
+              Padding(padding: EdgeInsets.only(top: 50)),
+            ],
+          ),
 
-                // Rating slider and impactful star
-                Row(
+          // Rating slider and impactful star
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [Text("Rating")],
-                          ),
-                          Row(
-                            children: [
-                              Slider(
-                                value: _currentHappinessValue,
-                                label:
-                                    numberFormat.format(_currentHappinessValue),
-                                min: 0,
-                                max: 100,
-                                divisions: 100,
-                                onChanged: (double value) {
-                                  setState(() {
-                                    _currentHappinessValue = value;
-                                  });
-                                },
-                              ),
-                            ],
-                          )
-                        ]),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Row(
+                      children: [Text("Rating")],
+                    ),
+                    Row(
                       children: [
-                        Row(
-                          children: [Text("Impactful")],
+                        Slider(
+                          value: _currentHappinessValue,
+                          label:
+                              numberFormat.format(_currentHappinessValue),
+                          min: 0,
+                          max: 100,
+                          divisions: 100,
+                          onChanged: (double value) {
+                            setState(() {
+                              _currentHappinessValue = value;
+                            });
+                          },
                         ),
-                        Row(
-                          children: [
-                            GestureDetector(
-                                child: Icon(
-                                  _impactful ? Icons.star : Icons.star_border,
-                                  color: _impactful ? Colors.yellow : null,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    _impactful = !_impactful;
-                                    var impactfulText = _impactful
-                                        ? "impactful, CONGRATS!"
-                                        : "not impactful";
-
-                                    ShowSnackBar.normal(context,
-                                        "Day marked as $impactfulText");
-                                    FocusScope.of(context).nextFocus();
-                                  });
-                                })
-                          ],
-                        )
                       ],
                     )
+                  ]),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [Text("Impactful")],
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                          child: Icon(
+                            _impactful ? Icons.star : Icons.star_border,
+                            color: _impactful ? Colors.yellow : null,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              _impactful = !_impactful;
+                              var impactfulText = _impactful
+                                  ? "impactful, CONGRATS!"
+                                  : "not impactful";
+
+                              ShowSnackBar.normal(context,
+                                  "Day marked as $impactfulText");
+                              FocusScope.of(context).nextFocus();
+                            });
+                          })
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+          Expanded(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            child: TextField(
+              controller: _controller,
+              maxLength: 3000,
+              maxLines: null,
+              textInputAction: TextInputAction.newline,
+              decoration: InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                labelText: "How was your day?",
+                labelStyle: TextStyle(fontSize: 16),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {
+                    setState(() {
+                      var text = _controller.text;
+
+                      ShowSnackBar.normal(
+                          context, "Updated entry for day #$daysAlive.");
+                      FocusScope.of(context).nextFocus();
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => Row(
+              children: [
+                if (appState.loginState == ApplicationLoginState.loggedIn)
+                Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await DailyEntryModel().addEntry(
+                              appState.loginState,
+                              _controller.text,
+                              _currentHappinessValue,
+                              _impactful,
+                              widget.inputDate ?? currentDate);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AuthWrapper()),
+                          );
+                        },
+                        child: Text("Submit"),
+                      )),
                   ],
                 ),
-                Expanded(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  child: TextField(
-                    controller: _controller,
-                    maxLength: 3000,
-                    maxLines: null,
-                    textInputAction: TextInputAction.newline,
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      labelText: "How was your day?",
-                      labelStyle: TextStyle(fontSize: 16),
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () {
-                          setState(() {
-                            var text = _controller.text;
-
-                            ShowSnackBar.normal(
-                                context, "Updated entry for day #$daysAlive.");
-                            FocusScope.of(context).nextFocus();
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Consumer<ApplicationState>(
-                    builder: (context, appState, _) => Row(
-                      children: [
-                        if (appState.loginState ==
-                            ApplicationLoginState.loggedIn)
-                          Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 300,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await DailyEntryModel().addEntry(
-                                        appState.loginState,
-                                        _controller.text,
-                                        _currentHappinessValue,
-                                        _impactful,
-                                        null);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AuthWrapper()),
-                                    );
-                                  },
-                                  child: Text("Submit"),
-                                )),
-                            ],
-                          ),
-                      ],
-                    ))
-
-// Button
               ],
-            )),
-      );
+            )
+          )
+        ],
+      )),
+    );
 
   @override
   Widget build(BuildContext context) {
@@ -242,6 +250,4 @@ class _DailyEntryState extends State<DailyEntry> {
       ),
     );
   }
-
-  void happinessChanged(double value) {}
 }

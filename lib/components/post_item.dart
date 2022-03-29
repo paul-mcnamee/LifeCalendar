@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:life_calendar/components/post.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:life_calendar/views/daily_entry.dart';
 
 // A single post row.
 class PostItem extends StatelessWidget {
@@ -45,7 +46,7 @@ class PostItem extends StatelessWidget {
     );
   }
 
-  Widget get cardItem {
+  Widget cardItem(BuildContext context) {
     return Card(
       color: Color.lerp(Colors.black, Colors.green, post.rating / 100),
       borderOnForeground: true,
@@ -55,8 +56,11 @@ class PostItem extends StatelessWidget {
         child: InkWell(
           splashColor: Colors.teal,
           onTap: () {
-            // TODO: should lead to the single post edit page
-            debugPrint('Card tapped.');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DailyEntry(inputDate: post.date,),
+                  settings: RouteSettings(arguments: post.date)),
+            );
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,13 +77,13 @@ class PostItem extends StatelessWidget {
   }
 
   /// Returns post details.
-  Widget get cardContainer {
+  Widget cardContainer(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          cardItem,
+          cardItem(context),
         ],
       ),
     );
@@ -92,7 +96,7 @@ class PostItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(child: cardContainer),
+          Flexible(child: cardContainer(context)),
         ],
       ),
     );
