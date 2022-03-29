@@ -11,6 +11,9 @@ import 'package:life_calendar/services/authentication.dart';
 
 import 'package:life_calendar/models/application_state.dart';
 
+// TODO: this is incredibly inefficient and could be replaced with document
+//    references
+
 class DailyEntryModel extends ChangeNotifier {
   DailyEntryModel() {
     init();
@@ -32,16 +35,40 @@ class DailyEntryModel extends ChangeNotifier {
     DateTime convertedDate =
         new DateTime(entryDate.year, entryDate.month, entryDate.day);
 
-    var post = await FirebaseFirestore.instance
+    String postId;
+
+    var oldPost = await FirebaseFirestore.instance
         .collection('posts')
-        .add(<String, dynamic>{
-      'entry': message,
-      'date': convertedDate,
-      'dateMS': convertedDate.millisecondsSinceEpoch,
-      'rating': happiness,
-      'impactful': impactful,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('date', isEqualTo: convertedDate)
+        .get();
+
+    if (oldPost.docs.isEmpty) {
+      var post = await FirebaseFirestore.instance
+          .collection('posts')
+          .add(<String, dynamic>{
+        'entry': message,
+        'date': convertedDate,
+        'dateMS': convertedDate.millisecondsSinceEpoch,
+        'rating': happiness,
+        'impactful': impactful,
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      });
+      postId = post.id;
+    } else {
+      postId = oldPost.docs.first.id;
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postId)
+          .set(<String, dynamic>{
+        'entry': message,
+        'date': convertedDate,
+        'dateMS': convertedDate.millisecondsSinceEpoch,
+        'rating': happiness,
+        'impactful': impactful,
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      });
+    }
 
     // Get the current aggregates before adding the potential new entry
     var aggregatesMonth = await FirebaseFirestore.instance
@@ -74,7 +101,7 @@ class DailyEntryModel extends ChangeNotifier {
       await FirebaseFirestore.instance
           .collection('ratings')
           .add(<String, dynamic>{
-        'postId': post.id,
+        'postId': postId,
         'date': convertedDate,
         'dateMS': convertedDate.millisecondsSinceEpoch,
         'rating': happiness,
@@ -96,7 +123,7 @@ class DailyEntryModel extends ChangeNotifier {
           .collection('ratings')
           .doc(rating.docs.first.id)
           .set(<String, dynamic>{
-        'postId': post.id,
+        'postId': postId,
         'date': convertedDate,
         'dateMS': convertedDate.millisecondsSinceEpoch,
         'rating': happiness,

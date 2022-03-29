@@ -17,15 +17,11 @@ import 'package:life_calendar/views/settings.dart';
 
 import '../main.dart';
 
-// TODO: need to be able to get a date and load the current post, and then
-//      later we would be updating the post instead of adding a new one
+// TODO: need to be able to get a date and load the current post
 
 // TODO: add a setting for selecting date format -- test for regional defaults
 DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 NumberFormat numberFormat = NumberFormat("#", "en-us");
-
-// TODO: should get the happiness from the entered data if there is any
-
 
 class DailyEntry extends StatefulWidget {
   const DailyEntry({Key? key}) : super(key: key);
@@ -40,7 +36,6 @@ class _DailyEntryState extends State<DailyEntry> {
   late double _currentHappinessValue = 50;
   late bool _impactful = false;
 
-  // TODO: this does not work...
   @override
   void didUpdateWidget(covariant DailyEntry oldWidget) {
     setState(() {
@@ -63,9 +58,9 @@ class _DailyEntryState extends State<DailyEntry> {
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .where('date', isEqualTo: convertedCurrentDate)
         .withConverter<Post>(
-            fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
-            toFirestore: (post, _) => post.toJson(),
-          )
+          fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
+          toFirestore: (post, _) => post.toJson(),
+        )
         .limit(1)
         .get()
         .then((var snapshot) {
@@ -199,37 +194,37 @@ class _DailyEntryState extends State<DailyEntry> {
                 ),
                 Consumer<ApplicationState>(
                     builder: (context, appState, _) => Row(
-                          children: [
-                            if (appState.loginState ==
-                                ApplicationLoginState.loggedIn)
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                      width: 300,
-                                      child: ElevatedButton(
-                                        onPressed: () async {
-                                          await DailyEntryModel().addEntry(
-                                              appState.loginState,
-                                              _controller.text,
-                                              _currentHappinessValue,
-                                              _impactful,
-                                              null);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AuthWrapper()),
-                                          );
-                                        },
-                                        child: Text("Submit"),
-                                      )),
-                                ],
-                              ),
-                          ],
-                        ))
+                      children: [
+                        if (appState.loginState ==
+                            ApplicationLoginState.loggedIn)
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    await DailyEntryModel().addEntry(
+                                        appState.loginState,
+                                        _controller.text,
+                                        _currentHappinessValue,
+                                        _impactful,
+                                        null);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AuthWrapper()),
+                                    );
+                                  },
+                                  child: Text("Submit"),
+                                )),
+                            ],
+                          ),
+                      ],
+                    ))
 
 // Button
               ],
