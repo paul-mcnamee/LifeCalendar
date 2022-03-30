@@ -29,7 +29,7 @@ Drawer buildDrawer(BuildContext context) {
           // margin: const EdgeInsets.only(bottom: 0),
         ),
         drawerTile(context, 'Home', Home()),
-        drawerTile(context, 'Daily Entry', DailyEntry(inputDate: null,)),
+        drawerTile(context, 'Daily Entry', DailyEntry(inputPost: null,)),
         drawerTile(context, 'Past Entries (7d)', Entries7dView()),
         // drawerTile(context, 'Current Week', CurrentWeek()),
         // drawerTile(context, 'Current Month', CurrentMonth()),

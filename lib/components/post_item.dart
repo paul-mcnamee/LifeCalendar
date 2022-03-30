@@ -58,7 +58,7 @@ class PostItem extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DailyEntry(inputDate: post.date,),
+              MaterialPageRoute(builder: (context) => DailyEntry(inputPost: post,),
                   settings: RouteSettings(arguments: post.date)),
             );
           },

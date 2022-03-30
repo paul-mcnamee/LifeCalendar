@@ -24,9 +24,9 @@ DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 NumberFormat numberFormat = NumberFormat("#", "en-us");
 
 class DailyEntry extends StatefulWidget {
-  const DailyEntry({Key? key, required this.inputDate}) : super(key: key);
+  const DailyEntry({Key? key, required this.inputPost}) : super(key: key);
 
-  final DateTime? inputDate;
+  final Post? inputPost;
 
   @override
   _DailyEntryState createState() => _DailyEntryState();
@@ -50,41 +50,51 @@ class _DailyEntryState extends State<DailyEntry> {
 
   @override
   void initState() {
+    if (widget.inputPost != null) {
+      post = widget.inputPost!;
+    }
     _controller = TextEditingController();
     loadUserSettings().then((void v) {
-      _controller.text = currentUserSettings.dailyEntryTemplate;
+      if (widget.inputPost == null) {
+        _controller.text = currentUserSettings.dailyEntryTemplate;
+      }
     });
 
     DateTime convertedDate;
 
-    if (widget.inputDate != null) {
-        convertedDate = new DateTime(widget.inputDate!.year, widget.inputDate!.month, widget.inputDate!.day);
-      } else {
-      convertedDate = convertedCurrentDate;
-    }
-
-    // Get the current day entry from firebase
-    FirebaseFirestore.instance
-        .collection('posts')
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .where('date', isEqualTo: convertedDate)
-        .withConverter<Post>(
-          fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
-          toFirestore: (post, _) => post.toJson(),
-        )
-        .limit(1)
-        .get()
-        .then((var snapshot) {
-      if (snapshot.docs.isNotEmpty && snapshot.size > 0) {
-        // if an an entry already exists then update the values
+    if (widget.inputPost != null) {
+        convertedDate = new DateTime(widget.inputPost!.date.year, widget.inputPost!.date.month, widget.inputPost!.date.day);
+        post = widget.inputPost!;
         setState(() {
-          post = snapshot.docs.first.data();
           _impactful = post.impactful;
           _currentHappinessValue = post.rating;
           _controller.text = post.entry;
         });
-      }
-    });
+      } else {
+      convertedDate = convertedCurrentDate;
+      // Get the current day entry from firebase
+      FirebaseFirestore.instance
+          .collection('posts')
+          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('date', isEqualTo: convertedDate)
+          .withConverter<Post>(
+        fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
+        toFirestore: (post, _) => post.toJson(),
+      )
+          .limit(1)
+          .get()
+          .then((var snapshot) {
+        if (snapshot.docs.isNotEmpty && snapshot.size > 0) {
+          // if an an entry already exists then update the values
+          setState(() {
+            post = snapshot.docs.first.data();
+            _impactful = post.impactful;
+            _currentHappinessValue = post.rating;
+            _controller.text = post.entry;
+          });
+        }
+      });
+    }
     super.initState();
   }
 
@@ -106,7 +116,7 @@ class _DailyEntryState extends State<DailyEntry> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                dateFormat.format(widget.inputDate ?? currentDate) +
+                dateFormat.format(widget.inputPost?.date ?? currentDate) +
                     '   -   Day #' +
                     daysAlive.toString(),
                 style: TextStyle(fontSize: 24),
@@ -221,7 +231,7 @@ class _DailyEntryState extends State<DailyEntry> {
                               _controller.text,
                               _currentHappinessValue,
                               _impactful,
-                              widget.inputDate ?? currentDate);
+                              widget.inputPost?.date ?? currentDate);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

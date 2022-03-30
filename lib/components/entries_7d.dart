@@ -68,7 +68,7 @@ class _Entries7dState extends State<Entries7d> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => DailyEntry(inputDate: null,)),
+                                MaterialPageRoute(builder: (context) => DailyEntry(inputPost: null,)),
                               );
                             },
                             child: Text("Add Entry"),
