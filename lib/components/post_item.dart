@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:life_calendar/components/post.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:life_calendar/views/daily_entry.dart';
 
 // A single post row.
 class PostItem extends StatelessWidget {
@@ -10,46 +11,79 @@ class PostItem extends StatelessWidget {
   final Post post;
   final DocumentReference<Post> reference;
 
-  Widget get rating {
-    return Text(
-      'R: ${post.rating}',
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    );
-  }
-
-  Widget get impactful {
-    return Text(
-      'I: ${post.impactful}',
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    );
-  }
-
   Widget get date {
     return Text(
-      'H: ${post.date}',
+      '${post.date.year}-${post.date.month}-${post.date.day}',
       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
-  // Return the movie title.
+  // Return the post entry text.
   Widget get entry {
-    return Text(
-      '${post.entry}',
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return Row(
+      children: [
+        Flexible(
+          child: Text('${post.entry}'),
+        )
+      ],
     );
   }
 
-  /// Returns movie details.
-  Widget get details {
+  Widget get header {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(children: [
+          Icon(
+            post.impactful ? Icons.star : Icons.star_border,
+            color: post.impactful ? Colors.yellow : null,
+          ),
+        ]),
+        Column(children: <Widget>[
+          date,
+        ]),
+      ],
+    );
+  }
+
+  Widget cardItem(BuildContext context) {
+    return Card(
+      color: Color.lerp(Colors.black, Colors.green, post.rating / 100),
+      borderOnForeground: true,
+      elevation: 8,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+        child: InkWell(
+          splashColor: Colors.teal,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DailyEntry(inputPost: post,),
+                  settings: RouteSettings(arguments: post.date)),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: header,
+              ),
+              entry,
+            ],
+          ),
+        ),
+      ));
+  }
+
+  /// Returns post details.
+  Widget cardContainer(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          rating,
-          impactful,
-          date,
-          entry,
+          cardItem(context),
         ],
       ),
     );
@@ -62,7 +96,7 @@ class PostItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(child: details),
+          Flexible(child: cardContainer(context)),
         ],
       ),
     );

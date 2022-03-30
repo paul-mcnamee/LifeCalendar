@@ -19,19 +19,8 @@ class _Entries7dState extends State<Entries7d> {
 // A reference to the list of posts.
 // We are using `withConverter` to ensure that interactions with the collection
 // are type-safe.
-
-  @override
-  void didUpdateWidget(Entries7d oldWidget) {
-    if(1 == 1) {
-      //
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
   @override
   Widget build(BuildContext context) {
-    // TODO: should make a list item for the post
-    // need a class for the post, should refactor the daily entry view to use it
     return StreamBuilder<QuerySnapshot<Post>>(
       stream: FirebaseFirestore.instance
           .collection('posts')
@@ -79,7 +68,7 @@ class _Entries7dState extends State<Entries7d> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => DailyEntry()),
+                                MaterialPageRoute(builder: (context) => DailyEntry(inputPost: null,)),
                               );
                             },
                             child: Text("Add Entry"),

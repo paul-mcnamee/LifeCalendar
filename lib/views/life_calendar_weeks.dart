@@ -27,8 +27,8 @@ class _LifeCalendarWeeksState extends State<LifeCalendarWeeks> {
 
   List<Container> _buildGridTileList(int count) => List.generate(
       count, (i) => Container(
-    child: _gridTile(i),
-  )
+        child: _gridTile(i),
+      )
   );
 
   @override
