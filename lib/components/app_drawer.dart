@@ -10,6 +10,8 @@ import 'package:life_calendar/views/life_calendar_years.dart';
 import 'package:life_calendar/views/settings.dart';
 import 'package:life_calendar/components/entries_7d.dart';
 
+import 'calendar_component.dart';
+
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
     // Add a ListView to the drawer. This ensures the user can scroll
@@ -29,6 +31,7 @@ Drawer buildDrawer(BuildContext context) {
           // margin: const EdgeInsets.only(bottom: 0),
         ),
         drawerTile(context, 'Home', Home()),
+        drawerTile(context, 'Calendar', CalendarComponent()),
         drawerTile(context, 'Daily Entry', DailyEntry(inputPost: null,)),
         drawerTile(context, 'Past Entries (7d)', Entries7dView()),
         // drawerTile(context, 'Current Week', CurrentWeek()),

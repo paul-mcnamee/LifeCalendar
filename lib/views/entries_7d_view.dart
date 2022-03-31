@@ -11,8 +11,6 @@ class Entries7dView extends StatefulWidget {
 }
 
 class _Entries7dState extends State<Entries7dView> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
