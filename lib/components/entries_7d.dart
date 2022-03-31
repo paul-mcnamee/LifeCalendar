@@ -62,17 +62,17 @@ class _Entries7dState extends State<Entries7d> {
                       // Padding(padding: EdgeInsets.only(top: 50, bottom: 0)),
                     ],
                   ),
-                      SizedBox(
-                          width: 300,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => DailyEntry(inputPost: null,)),
-                              );
-                            },
-                            child: Text("Add Entry"),
-                          )),
+                  SizedBox(
+                    width: 300,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DailyEntry(inputPost: null,)),
+                        );
+                      },
+                      child: Text("Add Entry"),
+                    )),
                 ],
               ),
             ),

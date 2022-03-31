@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -11,17 +9,17 @@ import 'package:provider/provider.dart';
 import 'theme/themes.dart';
 
 import 'package:life_calendar/services/firebase_auth.dart';
-import 'package:life_calendar/views/sign_in.dart';
 import 'package:life_calendar/views/home.dart';
 import 'package:life_calendar/services/authentication.dart';
-import 'package:life_calendar/components/app_bar.dart';
-import 'package:life_calendar/components/app_drawer.dart';
+
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'models/application_state.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await initializeDateFormatting();
   runApp(ChangeNotifierProvider(
       create: (context) => ApplicationState(),
       builder: (context, _) => App(),
