@@ -6,8 +6,8 @@ class DefaultTheme {
       backgroundColor: Colors.black45,
       colorScheme: ColorScheme.dark(
         primary: const Color(0xff03dac6),
-        primaryVariant: const Color(0xff03dac6),
+        primaryContainer: const Color(0xff03dac6),
         secondary: const Color(0xffbb86fc),
-        secondaryVariant: const Color(0xff3700B3),
+        secondaryContainer: const Color(0xff3700B3),
       ));
 }
