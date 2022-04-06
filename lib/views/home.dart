@@ -67,24 +67,44 @@ class HomeContainer extends StatelessWidget {
   List<Widget> constructNavTiles(BuildContext context) {
     List<Widget> navTiles = <Widget>[];
 
-    navTiles.add(navTile(context, 'Calendar', CalendarComponent()));
+    navTiles.add(navTile(context, 'Calendar', CalendarComponent(),
+        navTileIcon(Icons.calendar_today_outlined, "Calendar")));
     navTiles.add(navTile(
         context,
         'Daily Entry',
         DailyEntry(
           inputPost: null,
-        )));
-    navTiles.add(navTile(context, 'Past Entries (7d)', Entries7dView()));
-    navTiles
-        .add(navTile(context, 'Life Calendar (Months)', LifeCalendarMonths()));
-    navTiles
-        .add(navTile(context, 'Life Calendar (Years)', LifeCalendarYears()));
-    navTiles.add(navTile(context, 'Settings', Settings()));
+        ),
+        navTileIcon(Icons.add, "daily entry")));
+    navTiles.add(navTile(context, 'Past Entries\n(7 days)', Entries7dView(),
+        navTileIcon(Icons.view_list, "past entries 7 days")));
+    navTiles.add(navTile(
+        context,
+        'Life Calendar\n(Months)',
+        LifeCalendarMonths(),
+        navTileIcon(
+            Icons.calendar_view_month, "life calendar view in months")));
+    navTiles.add(navTile(context, 'Life Calendar\n(Years)', LifeCalendarYears(),
+        navTileIcon(Icons.calendar_view_week, "life calendar view in years")));
+    navTiles.add(navTile(context, 'Settings', Settings(),
+        navTileIcon(Icons.settings, "settings")));
 
     return navTiles;
   }
 
-  Container navTile(BuildContext context, String tileText, Widget page) {
+  Container navTileIcon(IconData? icon, String labelText) {
+    return Container(
+        padding: EdgeInsets.all(8),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 48,
+          semanticLabel: labelText,
+        ));
+  }
+
+  Container navTile(
+      BuildContext context, String tileText, Widget page, Widget icon) {
     return Container(
         child: InkWell(
       splashColor: Colors.tealAccent,
@@ -98,16 +118,26 @@ class HomeContainer extends StatelessWidget {
           color: Colors.teal.shade700,
         ),
         padding: EdgeInsets.all(6),
-        child: Stack(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                color: Colors.teal.shade800,
-              ),
-              child: Center(child: Text(tileText)),
-            )
-          ],
+        child: Container(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color: Colors.teal.shade800,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                icon,
+                Center(
+                    child: Text(
+                  tileText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                )),
+              ],
+            ),
+          ),
         ),
       ),
     ));
