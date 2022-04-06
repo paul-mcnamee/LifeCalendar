@@ -16,7 +16,7 @@ class _Entries7dState extends State<Entries7dView> {
     return Scaffold(
       body: Entries7d(),
       appBar: buildAppBar("Entries (7d)"),
-      drawer: buildDrawer(context),
+      // drawer: buildDrawer(context),
     );
   }
 }

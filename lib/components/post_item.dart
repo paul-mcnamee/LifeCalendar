@@ -48,32 +48,35 @@ class PostItem extends StatelessWidget {
 
   Widget cardItem(BuildContext context) {
     return Card(
-      color: Color.lerp(Colors.black, Colors.green, post.rating / 100),
-      borderOnForeground: true,
-      elevation: 8,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
-        child: InkWell(
-          splashColor: Colors.teal,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DailyEntry(inputPost: post,),
-                  settings: RouteSettings(arguments: post.date)),
-            );
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: header,
-              ),
-              entry,
-            ],
+        color: Color.lerp(Colors.black, Colors.green, post.rating / 100),
+        borderOnForeground: true,
+        elevation: 8,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+          child: InkWell(
+            splashColor: Colors.tealAccent,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DailyEntry(
+                          inputPost: post,
+                        ),
+                    settings: RouteSettings(arguments: post.date)),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: header,
+                ),
+                entry,
+              ],
+            ),
           ),
-        ),
-      ));
+        ));
   }
 
   /// Returns post details.

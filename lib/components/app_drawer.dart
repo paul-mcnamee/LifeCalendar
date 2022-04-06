@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:life_calendar/views/daily_entry.dart';
@@ -32,15 +31,15 @@ Drawer buildDrawer(BuildContext context) {
         ),
         drawerTile(context, 'Home', Home()),
         drawerTile(context, 'Calendar', CalendarComponent()),
-        drawerTile(context, 'Daily Entry', DailyEntry(inputPost: null,)),
+        drawerTile(
+            context,
+            'Daily Entry',
+            DailyEntry(
+              inputPost: null,
+            )),
         drawerTile(context, 'Past Entries (7d)', Entries7dView()),
-        // drawerTile(context, 'Current Week', CurrentWeek()),
-        // drawerTile(context, 'Current Month', CurrentMonth()),
-        // drawerTile(context, 'Current Year', CurrentYear()),
-        // drawerTile(context, 'Life Calendar (Weeks)', LifeCalendarWeeks()),
         drawerTile(context, 'Life Calendar (Months)', LifeCalendarMonths()),
         drawerTile(context, 'Life Calendar (Years)', LifeCalendarYears()),
-        // drawerTile(context, 'Endless', Endless()),
         drawerTile(context, 'Settings', Settings()),
       ],
     ),
@@ -49,16 +48,16 @@ Drawer buildDrawer(BuildContext context) {
 
 ListTile drawerTile(BuildContext context, String tileTitle, Widget widget) {
   return ListTile(
-        title: Text(tileTitle),
-        onTap: () {
-          // Update the state of the app
-          // ...
-          // Then close the drawer
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => widget),
-          );
-        },
+    title: Text(tileTitle),
+    onTap: () {
+      // Update the state of the app
+      // ...
+      // Then close the drawer
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => widget),
       );
+    },
+  );
 }

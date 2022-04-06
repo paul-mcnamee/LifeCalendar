@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:life_calendar/components/globals.dart';
 import 'package:life_calendar/components/post.dart';
 import 'package:life_calendar/views/daily_entry.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -31,11 +32,8 @@ class _CalendarComponentState extends State<CalendarComponent> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   // Can be toggled on/off by longpressing a date
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  DateTime? _rangeStart;
-  DateTime? _rangeEnd;
 
   @override
   void initState() {
@@ -43,26 +41,26 @@ class _CalendarComponentState extends State<CalendarComponent> {
         .collection('posts')
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .withConverter<Post>(
-      fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
-      toFirestore: (post, _) => post.toJson(),
-    )
+          fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
+          toFirestore: (post, _) => post.toJson(),
+        )
         .get()
         .then((var snapshot) {
       if (snapshot.docs.isNotEmpty && snapshot.size > 0) {
         // if an an entry already exists then update the values
         setState(() {
           Map<DateTime, Post> postMap = Map.fromIterable(snapshot.docs,
-              key: (item) => item.data().date,
-              value: (item) => item.data());
+              key: (item) => item.data().date, value: (item) => item.data());
           posts.addAll(postMap);
+          _onDaySelected(DateTime.now(), DateTime.now());
         });
       }
     });
 
-    super.initState();
-
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+
+    super.initState();
   }
 
   @override
@@ -73,7 +71,7 @@ class _CalendarComponentState extends State<CalendarComponent> {
 
   List<Post> _getEventsForDay(DateTime day) {
     // Implementation example
-    List<Post> postList = <Post>[] ;
+    List<Post> postList = <Post>[];
     if (posts[day] != null) {
       postList.add(posts[day]!);
     }
@@ -81,17 +79,12 @@ class _CalendarComponentState extends State<CalendarComponent> {
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectedDay)) {
-      setState(() {
-        _selectedDay = selectedDay;
-        _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
-        _rangeEnd = null;
-        _rangeSelectionMode = RangeSelectionMode.toggledOff;
-      });
+    setState(() {
+      _selectedDay = selectedDay;
+      _focusedDay = focusedDay;
+    });
 
-      _selectedEvents.value = _getEventsForDay(selectedDay);
-    }
+    _selectedEvents.value = _getEventsForDay(selectedDay);
   }
 
   @override
@@ -104,8 +97,6 @@ class _CalendarComponentState extends State<CalendarComponent> {
             lastDay: kLastDay,
             focusedDay: _focusedDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
             calendarFormat: CalendarFormat.month,
             rangeSelectionMode: RangeSelectionMode.disabled,
             eventLoader: _getEventsForDay,
@@ -135,11 +126,39 @@ class _CalendarComponentState extends State<CalendarComponent> {
           const SizedBox(height: 8.0),
           Expanded(
             child: ValueListenableBuilder<List<Post>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
+                valueListenable: _selectedEvents,
+                builder: (context, value, _) {
+                  if (value.length > 0) {
+                    return ListView.builder(
+                      itemCount: value.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 12.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DailyEntry(
+                                          inputPost: value[index],
+                                        ),
+                                    settings: RouteSettings(
+                                        arguments: value[index].date)),
+                              );
+                            },
+                            title: Text('${value[index].entry}'),
+                          ),
+                        );
+                      },
+                    );
+                  } else {
                     return Container(
                       margin: const EdgeInsets.symmetric(
                         horizontal: 12.0,
@@ -153,22 +172,37 @@ class _CalendarComponentState extends State<CalendarComponent> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DailyEntry(inputPost: value[index],),
-                                settings: RouteSettings(arguments: value[index].date)),
+                            MaterialPageRoute(
+                              builder: (context) => DailyEntry(
+                                inputPost: generatePostForFocusedDay(),
+                              ),
+                            ),
                           );
                         },
-                        title: Text('${value[index].entry}'),
+                        title: Center(child: Text('Tap to add an entry!')),
                       ),
                     );
-                  },
-                );
-              },
-            ),
+                  }
+                }),
           ),
         ],
       ),
       appBar: buildAppBar("Calendar"),
-      drawer: buildDrawer(context),
+      // drawer: buildDrawer(context),
+    );
+  }
+
+  Post generatePostForFocusedDay() {
+    DateTime postDate =
+        new DateTime(_focusedDay.year, _focusedDay.month, _focusedDay.day);
+
+    return new Post(
+      date: postDate,
+      dateMS: postDate.millisecondsSinceEpoch,
+      entry: currentUserSettings.dailyEntryTemplate,
+      impactful: false,
+      rating: 50.0,
+      userId: currentUserSettings.userId,
     );
   }
 }

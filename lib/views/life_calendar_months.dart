@@ -16,27 +16,30 @@ class _LifeCalendarMonthsState extends State<LifeCalendarMonths> {
       mainAxisSpacing: 2,
       crossAxisSpacing: 2,
       crossAxisCount: 26,
-      children: _buildGridTileList(14 * currentUserSettings.lifespanYears)
-  );
+      children: _buildGridTileList(14 * currentUserSettings.lifespanYears));
 
   Widget _gridTile(int index) => Container(
-    // TODO: get color from the user data if an entry is present for that week
-    color: index % 13 == 0 ? null : index < daysAlive / 30 ? Colors.white70 : Colors.black,
-    height: MediaQuery.of(context).size.height / 90,
-  );
+        // TODO: get color from the user data if an entry is present for that week
+        color: index % 13 == 0
+            ? null
+            : index < daysAlive / 30
+                ? Colors.white70
+                : Colors.black,
+        height: MediaQuery.of(context).size.height / 90,
+      );
 
   List<Container> _buildGridTileList(int count) => List.generate(
-      count, (i) => Container(
-    child: _gridTile(i),
-  )
-  );
+      count,
+      (i) => Container(
+            child: _gridTile(i),
+          ));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildGrid(),
       appBar: buildAppBar("Life Calendar (Months)"),
-      drawer: buildDrawer(context),
+      // drawer: buildDrawer(context),
     );
   }
 }

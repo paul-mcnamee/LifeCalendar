@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -326,7 +327,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       body: _build(),
       appBar: buildAppBar("Settings"),
-      drawer: buildDrawer(context),
+      // drawer: buildDrawer(context),
     );
   }
 }
