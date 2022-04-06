@@ -25,10 +25,16 @@ class _Entries7dState extends State<Entries7d> {
       stream: FirebaseFirestore.instance
           .collection('posts')
           .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('dateMS',
+              isGreaterThan: DateTime.now()
+                  .subtract(new Duration(days: 7))
+                  .millisecondsSinceEpoch)
           .withConverter<Post>(
-        fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
-        toFirestore: (post, _) => post.toJson(),
-      ).orderBy('dateMS', descending: true).snapshots(),
+            fromFirestore: (snapshots, _) => Post.fromJson(snapshots.data()!),
+            toFirestore: (post, _) => post.toJson(),
+          )
+          .orderBy('dateMS', descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -63,16 +69,19 @@ class _Entries7dState extends State<Entries7d> {
                     ],
                   ),
                   SizedBox(
-                    width: 300,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DailyEntry(inputPost: null,)),
-                        );
-                      },
-                      child: Text("Add Entry"),
-                    )),
+                      width: 300,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DailyEntry(
+                                      inputPost: null,
+                                    )),
+                          );
+                        },
+                        child: Text("Add Entry"),
+                      )),
                 ],
               ),
             ),
@@ -92,4 +101,3 @@ class _Entries7dState extends State<Entries7d> {
     );
   }
 }
-

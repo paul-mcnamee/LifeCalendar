@@ -1,5 +1,4 @@
 import 'package:life_calendar/components/app_bar.dart';
-import 'package:life_calendar/components/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:life_calendar/components/quote.dart';
 import 'package:life_calendar/views/settings.dart';
