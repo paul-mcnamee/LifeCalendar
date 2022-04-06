@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:life_calendar/components/post.dart';
 import 'package:life_calendar/components/post_item.dart';
 import 'package:life_calendar/views/daily_entry.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'globals.dart';
 
 class Entries7d extends StatefulWidget {
   const Entries7d({Key? key}) : super(key: key);
