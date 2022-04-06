@@ -23,7 +23,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: HomeContainer(),
       appBar: buildAppBar("Home"),
-      // drawer: buildDrawer(context),
     );
   }
 }

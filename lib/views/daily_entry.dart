@@ -1,25 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/services.dart';
 import 'package:life_calendar/components/post.dart';
 import 'package:life_calendar/services/authentication.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:life_calendar/components/app_bar.dart';
-import 'package:life_calendar/components/app_drawer.dart';
 import 'package:life_calendar/components/globals.dart';
 import 'package:life_calendar/components/snackbar.dart';
 import 'package:life_calendar/models/application_state.dart';
 import 'package:life_calendar/models/daily_entry_model.dart';
 import 'package:life_calendar/views/settings.dart';
 
-import '../main.dart';
-
-// TODO: need to be able to get a date and load the current post
-
 // TODO: add a setting for selecting date format -- test for regional defaults
+//      Ideally there should be a utility for just getting the date with this format
 DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 NumberFormat numberFormat = NumberFormat("#", "en-us");
 
@@ -254,7 +249,6 @@ class _DailyEntryState extends State<DailyEntry> {
       child: Scaffold(
         body: _currentDay(),
         appBar: buildAppBar("Daily Entry"),
-        // drawer: buildDrawer(context),
       ),
     );
   }

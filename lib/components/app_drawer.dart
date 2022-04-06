@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:life_calendar/views/daily_entry.dart';
 import 'package:life_calendar/views/entries_7d_view.dart';
 import 'package:life_calendar/views/home.dart';
 import 'package:life_calendar/views/life_calendar_months.dart';
-import 'package:life_calendar/views/life_calendar_weeks.dart';
 import 'package:life_calendar/views/life_calendar_years.dart';
 import 'package:life_calendar/views/settings.dart';
-import 'package:life_calendar/components/entries_7d.dart';
 
 import 'calendar_component.dart';
 
+@deprecated
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
     // Add a ListView to the drawer. This ensures the user can scroll
@@ -27,7 +25,6 @@ Drawer buildDrawer(BuildContext context) {
             textAlign: TextAlign.center,
           ),
           padding: const EdgeInsets.fromLTRB(4.0, 50.0, 4.0, 4.0),
-          // margin: const EdgeInsets.only(bottom: 0),
         ),
         drawerTile(context, 'Home', Home()),
         drawerTile(context, 'Calendar', CalendarComponent()),

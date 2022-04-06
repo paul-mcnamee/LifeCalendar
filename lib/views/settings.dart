@@ -327,7 +327,6 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       body: _build(),
       appBar: buildAppBar("Settings"),
-      // drawer: buildDrawer(context),
     );
   }
 }

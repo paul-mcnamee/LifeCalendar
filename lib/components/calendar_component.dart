@@ -188,7 +188,6 @@ class _CalendarComponentState extends State<CalendarComponent> {
         ],
       ),
       appBar: buildAppBar("Calendar"),
-      // drawer: buildDrawer(context),
     );
   }
 

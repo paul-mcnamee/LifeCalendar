@@ -35,7 +35,6 @@ class _LifeCalendarYearsState extends State<LifeCalendarYears> {
     return Scaffold(
       body: _buildGrid(),
       appBar: buildAppBar("Life Calendar (Years)"),
-      // drawer: buildDrawer(context),
     );
   }
 }

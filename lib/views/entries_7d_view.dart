@@ -1,5 +1,4 @@
 import 'package:life_calendar/components/app_bar.dart';
-import 'package:life_calendar/components/app_drawer.dart';
 import 'package:life_calendar/components/entries_7d.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,6 @@ class _Entries7dState extends State<Entries7dView> {
     return Scaffold(
       body: Entries7d(),
       appBar: buildAppBar("Entries (7d)"),
-      // drawer: buildDrawer(context),
     );
   }
 }

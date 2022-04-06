@@ -39,7 +39,6 @@ class _LifeCalendarMonthsState extends State<LifeCalendarMonths> {
     return Scaffold(
       body: _buildGrid(),
       appBar: buildAppBar("Life Calendar (Months)"),
-      // drawer: buildDrawer(context),
     );
   }
 }
