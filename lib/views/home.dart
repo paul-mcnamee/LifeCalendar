@@ -1,10 +1,12 @@
-import 'package:life_calendar/components/app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:life_calendar/components/quote.dart';
-import 'package:life_calendar/views/settings.dart';
 
-import '../components/calendar_component.dart';
-import '../components/greeting_component.dart';
+import 'package:life_calendar/components/quote.dart';
+import 'package:life_calendar/components/app_bar.dart';
+import 'package:life_calendar/components/calendar_component.dart';
+import 'package:life_calendar/components/greeting_component.dart';
+import 'package:life_calendar/views/settings.dart';
+import 'package:life_calendar/views/todo_list_view.dart';
+
 import 'daily_entry.dart';
 import 'entries_7d_view.dart';
 import 'life_calendar_months.dart';
@@ -75,9 +77,7 @@ class HomeContainer extends StatelessWidget {
         DailyEntry(
           inputPost: null,
         ),
-        navTileIcon(Icons.add, "daily entry")));
-    navTiles.add(navTile(context, 'Past Entries\n(7 days)', Entries7dView(),
-        navTileIcon(Icons.view_list, "past entries 7 days")));
+        navTileIcon(Icons.post_add, "daily entry")));
     navTiles.add(navTile(
         context,
         'Life Calendar\n(Months)',
@@ -86,6 +86,10 @@ class HomeContainer extends StatelessWidget {
             Icons.calendar_view_month, "life calendar view in months")));
     navTiles.add(navTile(context, 'Life Calendar\n(Years)', LifeCalendarYears(),
         navTileIcon(Icons.calendar_view_week, "life calendar view in years")));
+    navTiles.add(navTile(context, 'Past Entries\n(7 days)', Entries7dView(),
+        navTileIcon(Icons.view_list, "past entries 7 days")));
+    navTiles.add(navTile(context, 'Todo List', TodoListView(),
+        navTileIcon(Icons.checklist, "To do list")));
     navTiles.add(navTile(context, 'Settings', Settings(),
         navTileIcon(Icons.settings, "settings")));
 

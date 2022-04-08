@@ -4,6 +4,7 @@ import 'package:life_calendar/views/settings.dart';
 const String appTitle = "Life Calendar";
 
 final currentDate = DateTime.now().toLocal();
+final currentDateMS = currentDate.millisecondsSinceEpoch;
 DateTime convertedCurrentDate =
     new DateTime(currentDate.year, currentDate.month, currentDate.day);
 // TODO: get from user prefs
@@ -51,4 +52,3 @@ UserSettings currentUserSettings = new UserSettings(
   dailyEntryTemplate: dailyEntryTemplate,
   userId: '',
 );
-
