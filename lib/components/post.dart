@@ -14,13 +14,13 @@ class Post {
 
   Post.fromJson(Map<String, Object?> json)
       : this(
-    entry: json['entry'] as String,
-    date: (json['date']! as Timestamp).toDate(),
-    dateMS: json['dateMS']! as int,
-    rating: json['rating']! as double,
-    impactful: (json['impactful'] ?? false) as bool,
-    userId: json['userId']! as String,
-  );
+          entry: json['entry'] as String,
+          date: (json['date']! as Timestamp).toDate(),
+          dateMS: json['dateMS']! as int,
+          rating: (json['rating'] ?? 50.0) as double,
+          impactful: (json['impactful'] ?? false) as bool,
+          userId: json['userId']! as String,
+        );
 
   final String entry;
   final DateTime date;

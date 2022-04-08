@@ -18,6 +18,7 @@ class _EmailFormState extends State<EmailForm> {
     return Column(
       children: [
         const Header('Sign in with email'),
+        const Text('If you do not have an account, one will be created.'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -35,7 +36,8 @@ class _EmailFormState extends State<EmailForm> {
                     validator: (value) {
                       if (value!.isEmpty)
                         return 'Enter your email address to continue';
-                      if (!value.contains(RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")))
+                      if (!value.contains(RegExp(
+                          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")))
                         return 'Enter a valid email address to continue';
                       return null;
                     },

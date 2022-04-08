@@ -276,21 +276,22 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("Theme", style: TextStyle(fontSize: 24)),
-                    Padding(padding: EdgeInsets.only(top: 50, bottom: 0)),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 300, child: Text("Colors N Stuff")),
-                  ],
-                ),
+                // TODO: should add some theme switching
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: [
+                //     Text("Theme", style: TextStyle(fontSize: 24)),
+                //     Padding(padding: EdgeInsets.only(top: 50, bottom: 0)),
+                //   ],
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: [
+                //     SizedBox(width: 300, child: Text("Colors N Stuff")),
+                //   ],
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
