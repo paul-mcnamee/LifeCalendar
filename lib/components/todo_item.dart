@@ -12,7 +12,7 @@ class TodoItem extends StatelessWidget {
   Widget cardItem(BuildContext context) {
     return Card(
         color: Color.lerp(
-            Colors.teal.shade600, Colors.teal.shade900, todo.importance / 100),
+            Colors.teal.shade900, Colors.teal.shade500, todo.importance / 100),
         borderOnForeground: true,
         elevation: 8,
         child: Padding(
@@ -44,10 +44,8 @@ class TodoItem extends StatelessWidget {
                       child: Text('${todo.entry}'),
                     ),
                     IconButton(
-                      icon: Icon(
-                        todo.completed ? Icons.delete : null,
-                      ),
-                      tooltip: 'Delete the completed todo item',
+                      icon: Icon(Icons.delete),
+                      tooltip: 'Delete the todo item',
                       onPressed: () async {
                         await todo.delete(reference.id);
                       },

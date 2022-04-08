@@ -77,7 +77,7 @@ class _TodoItemState extends State<TodoEntry> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Enter a new todo item!',
+                      'Enter a new todo item',
                       style: TextStyle(fontSize: 24),
                     ),
                     Padding(padding: EdgeInsets.only(top: 50)),
@@ -93,7 +93,7 @@ class _TodoItemState extends State<TodoEntry> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
-                            children: [Text("Importance")],
+                            children: [Text("How important is this?")],
                           ),
                           Row(
                             children: [
@@ -118,12 +118,11 @@ class _TodoItemState extends State<TodoEntry> {
                   // mainAxisAlignment: MainAxisAlignment.center,
                   child: TextField(
                     controller: _controller,
-                    maxLength: 3000,
-                    maxLines: null,
+                    maxLength: 300,
                     textInputAction: TextInputAction.newline,
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      labelText: "Enter a new todo item.",
+                      labelText: "What needs to get done?",
                       labelStyle: TextStyle(fontSize: 16),
                       suffixIcon: IconButton(
                         icon: Icon(Icons.send),
