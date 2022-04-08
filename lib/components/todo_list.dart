@@ -25,7 +25,8 @@ class _TodoListState extends State<TodoList> {
             fromFirestore: (snapshots, _) => Todo.fromJson(snapshots.data()!),
             toFirestore: (todoItem, _) => todoItem.toJson(),
           )
-          .orderBy('completed', descending: false)
+          .orderBy('completed')
+          .orderBy('importance', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {

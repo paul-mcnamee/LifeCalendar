@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:life_calendar/views/todo_list_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'package:life_calendar/components/snackbar.dart';
 
 import 'package:life_calendar/models/application_state.dart';
 import 'package:life_calendar/models/todo_model.dart';
+
+NumberFormat numberFormat = NumberFormat("#", "en-us");
 
 class TodoEntry extends StatefulWidget {
   const TodoEntry({Key? key}) : super(key: key);
@@ -78,6 +81,37 @@ class _TodoItemState extends State<TodoEntry> {
                       style: TextStyle(fontSize: 24),
                     ),
                     Padding(padding: EdgeInsets.only(top: 50)),
+                  ],
+                ),
+                // Rating slider and impactful star
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [Text("Importance")],
+                          ),
+                          Row(
+                            children: [
+                              Slider(
+                                value: _importance,
+                                label: numberFormat.format(_importance),
+                                min: 0,
+                                max: 100,
+                                divisions: 100,
+                                onChanged: (double value) {
+                                  setState(() {
+                                    _importance = value;
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                        ]),
                   ],
                 ),
                 Expanded(
