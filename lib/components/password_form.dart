@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:life_calendar/components/widgets.dart';
+import 'package:life_calendar/views/forgot_password_view.dart';
 
 class PasswordForm extends StatefulWidget {
   const PasswordForm({
@@ -27,6 +28,8 @@ class _PasswordFormState extends State<PasswordForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         const Header('Sign in'),
         Padding(
@@ -34,7 +37,7 @@ class _PasswordFormState extends State<PasswordForm> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -87,6 +90,14 @@ class _PasswordFormState extends State<PasswordForm> {
                       const SizedBox(width: 30),
                     ],
                   ),
+                ),
+                GestureDetector(
+                  child: Text('Forgot Password',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.teal)),
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ForgotPasswordView())),
                 ),
               ],
             ),

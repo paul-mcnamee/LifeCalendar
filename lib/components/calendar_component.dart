@@ -8,7 +8,6 @@ import 'package:life_calendar/components/post.dart';
 import 'package:life_calendar/views/daily_entry.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:life_calendar/components/app_bar.dart';
-import 'package:life_calendar/components/app_drawer.dart';
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
@@ -31,7 +30,7 @@ class _CalendarComponentState extends State<CalendarComponent> {
   );
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
-  // Can be toggled on/off by longpressing a date
+  // Can be toggled on/off by long-pressing a date
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 

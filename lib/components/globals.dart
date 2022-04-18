@@ -7,7 +7,7 @@ final currentDate = DateTime.now().toLocal();
 final currentDateMS = currentDate.millisecondsSinceEpoch;
 DateTime convertedCurrentDate =
     new DateTime(currentDate.year, currentDate.month, currentDate.day);
-// TODO: get from user prefs
+
 var birthday = new DateTime(1989, 12, 12);
 
 var daysInYear = 365.242196;
@@ -30,7 +30,10 @@ var yearsLeft = (daysLeft / daysInYear).floor();
 DateFormat dateFormatDate = DateFormat("yyyy-MM-dd");
 NumberFormat numberFormatNoTrailing = NumberFormat("#", "en-us");
 
-var inAppInfoMessagesPaused = true;
+var inAppInfoMessagesPaused = false;
+
+var dailyNotificationsPaused = false;
+var dailyNotificationTime = DateTime(2022, 4, 20, 21, 30);
 
 String dailyEntryTemplate = "What made you happy today?\n\n"
     "What did you do well today?\n\n"
@@ -42,6 +45,8 @@ UserSettings defaultUserSettings = new UserSettings(
   inAppInfoMessagesPaused: inAppInfoMessagesPaused,
   birthday: birthday,
   dailyEntryTemplate: dailyEntryTemplate,
+  dailyNotificationTime: dailyNotificationTime,
+  dailyNotificationsPaused: dailyNotificationsPaused,
   userId: '',
 );
 
@@ -49,6 +54,8 @@ UserSettings currentUserSettings = new UserSettings(
   lifespanYears: lifespanYears,
   inAppInfoMessagesPaused: inAppInfoMessagesPaused,
   birthday: birthday,
+  dailyNotificationTime: dailyNotificationTime,
+  dailyNotificationsPaused: dailyNotificationsPaused,
   dailyEntryTemplate: dailyEntryTemplate,
   userId: '',
 );

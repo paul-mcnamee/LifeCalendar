@@ -9,8 +9,7 @@ class RegisterForm extends StatefulWidget {
     required this.email,
   });
   final String email;
-  final void Function(String email, String password)
-  registerAccount;
+  final void Function(String email, String password) registerAccount;
   final void Function() cancel;
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -30,6 +29,8 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Header('Create account'),
         Padding(
@@ -73,7 +74,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
                         onPressed: widget.cancel,

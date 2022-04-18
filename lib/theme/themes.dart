@@ -9,8 +9,8 @@ class DefaultTheme {
       backgroundColor: Colors.black45,
       colorScheme: ColorScheme.dark(
         primary: Colors.teal.shade600,
-        primaryContainer: Colors.teal.shade200,
+        // primaryContainer: Colors.teal.shade200,
         secondary: Colors.teal.shade800,
-        secondaryContainer: Colors.teal.shade900,
+        // secondaryContainer: Colors.teal.shade900,
       ));
 }

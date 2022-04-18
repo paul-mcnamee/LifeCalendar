@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:life_calendar/components/widgets.dart';
@@ -5,6 +6,7 @@ import 'package:life_calendar/components/widgets.dart';
 class EmailForm extends StatefulWidget {
   const EmailForm({required this.callback});
   final void Function(String email) callback;
+
   @override
   _EmailFormState createState() => _EmailFormState();
 }
@@ -16,6 +18,8 @@ class _EmailFormState extends State<EmailForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         const Header('Sign in with email'),
         const Text('If you do not have an account, one will be created.'),
@@ -24,27 +28,24 @@ class _EmailFormState extends State<EmailForm> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextFormField(
                     controller: _controller,
+                    textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(
-                      hintText: 'Enter your email',
+                      hintText: 'Email',
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return 'Enter your email address to continue';
-                      if (!value.contains(RegExp(
-                          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")))
-                        return 'Enter a valid email address to continue';
-                      return null;
-                    },
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (email) =>
+                        email != null && !EmailValidator.validate(email)
+                            ? 'Enter a valid email'
+                            : null,
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
