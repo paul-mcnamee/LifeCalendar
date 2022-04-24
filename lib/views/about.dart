@@ -80,6 +80,35 @@ class About extends StatelessWidget {
                     Container(
                       child: Flexible(
                         child: Text(
+                          "This app code can be viewed on GitHub.",
+                          maxLines: null,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        StyledButton(
+                          onPressed: () {
+                            launchUrl(
+                              Uri(
+                                  scheme: 'https',
+                                  host: 'www.github.com',
+                                  path: '/paul-mcnamee/LifeCalendar'),
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
+                          child: const Text('VISIT GITHUB'),
+                        ),
+                      ],
+                    )
+                  ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Flexible(
+                        child: Text(
                           "This app is owned by FourthMouse LLC.",
                           maxLines: null,
                         ),
