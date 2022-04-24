@@ -19,7 +19,11 @@ class _TodoListState extends State<TodoListView> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => TodoEntry()),
+            MaterialPageRoute(
+                builder: (context) => TodoEntry(
+                      inputTodo: null,
+                      inputTodoId: null,
+                    )),
           );
         },
         backgroundColor: Colors.teal,

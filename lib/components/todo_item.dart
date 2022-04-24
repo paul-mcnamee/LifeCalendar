@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:life_calendar/models/todo_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../views/todo_entry.dart';
+
 // A single todo row.
 class TodoItem extends StatelessWidget {
   TodoItem(this.todo, this.reference);
@@ -41,8 +43,36 @@ class TodoItem extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Text('${todo.entry}'),
+                      child: InkWell(
+                          splashColor: Colors.tealAccent,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TodoEntry(
+                                        inputTodo: todo,
+                                        inputTodoId: reference.id,
+                                      )),
+                            );
+                          },
+                          child: Text('${todo.entry}')),
                     ),
+                    // Edit icon doesn't seem necessary, I'll leave it in case
+                    // others think it is necessary though.
+                    // IconButton(
+                    //   icon: Icon(Icons.edit),
+                    //   tooltip: 'Edit the todo item',
+                    //   onPressed: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => TodoEntry(
+                    //                 inputTodo: todo,
+                    //                 inputTodoId: reference.id,
+                    //               )),
+                    //     );
+                    //   },
+                    // ),
                     IconButton(
                       icon: Icon(Icons.delete),
                       tooltip: 'Delete the todo item',

@@ -99,8 +99,9 @@ class _CalendarComponentState extends State<CalendarComponent> {
             calendarFormat: CalendarFormat.month,
             rangeSelectionMode: RangeSelectionMode.disabled,
             eventLoader: _getEventsForDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
+            startingDayOfWeek: StartingDayOfWeek.sunday,
             locale: 'en_US',
+            headerStyle: HeaderStyle(formatButtonVisible: false),
             calendarStyle: CalendarStyle(
               // Use `CalendarStyle` to customize the UI
               outsideDaysVisible: false,

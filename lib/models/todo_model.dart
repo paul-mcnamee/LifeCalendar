@@ -71,6 +71,16 @@ class Todo {
     });
   }
 
+  Future<void> update(String id, String entry, double importance) async {
+    await FirebaseFirestore.instance
+        .collection('todos')
+        .doc(id)
+        .update(<String, dynamic>{
+      'entry': entry,
+      'importance': importance,
+    });
+  }
+
   Future<void> complete(String id, bool completed) async {
     await FirebaseFirestore.instance
         .collection('todos')

@@ -16,7 +16,12 @@ import 'package:life_calendar/models/todo_model.dart';
 NumberFormat numberFormat = NumberFormat("#", "en-us");
 
 class TodoEntry extends StatefulWidget {
-  const TodoEntry({Key? key}) : super(key: key);
+  const TodoEntry(
+      {Key? key, required this.inputTodo, required this.inputTodoId})
+      : super(key: key);
+
+  final Todo? inputTodo;
+  final String? inputTodoId;
 
   @override
   _TodoItemState createState() => _TodoItemState();
@@ -27,6 +32,7 @@ class _TodoItemState extends State<TodoEntry> {
   late Todo todo;
   late double _importance = 50;
   late bool _completed = false;
+  bool isEditMode = false;
 
   @override
   void didUpdateWidget(covariant TodoEntry oldWidget) {
@@ -43,14 +49,20 @@ class _TodoItemState extends State<TodoEntry> {
     _controller = TextEditingController();
 
     setState(() {
-      todo = new Todo(
-          entry: '',
-          date: currentDate,
-          dateMS: currentDateMS,
-          importance: 0.0,
-          completed: false,
-          archived: false,
-          userId: FirebaseAuth.instance.currentUser!.uid);
+      if (widget.inputTodo != null) {
+        todo = widget.inputTodo!;
+        isEditMode = true;
+      } else {
+        todo = new Todo(
+            entry: '',
+            date: currentDate,
+            dateMS: currentDateMS,
+            importance: 0.0,
+            completed: false,
+            archived: false,
+            userId: FirebaseAuth.instance.currentUser!.uid);
+      }
+
       _completed = todo.completed;
       _importance = todo.importance;
       _controller.text = todo.entry;
@@ -71,6 +83,8 @@ class _TodoItemState extends State<TodoEntry> {
             heightFactor: 0.9,
             alignment: FractionalOffset.center,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -114,27 +128,25 @@ class _TodoItemState extends State<TodoEntry> {
                         ]),
                   ],
                 ),
-                Expanded(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  child: TextField(
-                    controller: _controller,
-                    maxLength: 300,
-                    textInputAction: TextInputAction.newline,
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      labelText: "What needs to get done?",
-                      labelStyle: TextStyle(fontSize: 16),
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () {
-                          setState(() {
-                            var text = _controller.text;
+                TextField(
+                  controller: _controller,
+                  maxLength: 300,
+                  maxLines: null,
+                  textInputAction: TextInputAction.newline,
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    labelText: "What needs to get done?",
+                    labelStyle: TextStyle(fontSize: 16),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.send),
+                      onPressed: () {
+                        setState(() {
+                          var text = _controller.text;
 
-                            ShowSnackBar.normal(context, "Updated todo.");
-                            FocusScope.of(context).nextFocus();
-                          });
-                        },
-                      ),
+                          ShowSnackBar.normal(context, "Updated todo.");
+                          FocusScope.of(context).nextFocus();
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -152,16 +164,23 @@ class _TodoItemState extends State<TodoEntry> {
                                       width: 300,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          var todo = new Todo(
-                                              entry: _controller.text,
-                                              date: currentDate,
-                                              dateMS: currentDateMS,
-                                              importance: _importance,
-                                              completed: _completed,
-                                              archived: false,
-                                              userId: FirebaseAuth
-                                                  .instance.currentUser!.uid);
-                                          todo.add();
+                                          if (isEditMode) {
+                                            await todo.update(
+                                                widget.inputTodoId ?? "",
+                                                _controller.text,
+                                                _importance);
+                                          } else {
+                                            var todo = new Todo(
+                                                entry: _controller.text,
+                                                date: currentDate,
+                                                dateMS: currentDateMS,
+                                                importance: _importance,
+                                                completed: _completed,
+                                                archived: false,
+                                                userId: FirebaseAuth
+                                                    .instance.currentUser!.uid);
+                                            todo.add();
+                                          }
 
                                           Navigator.pop(context);
                                           Navigator.pop(context);
