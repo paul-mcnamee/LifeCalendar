@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_calendar/components/globals.dart';
 
 class GreetingComponent extends StatefulWidget {
   @override
@@ -8,17 +9,26 @@ class GreetingComponent extends StatefulWidget {
 class _GreetingComponentState extends State<GreetingComponent> {
   String text = "";
 
-  int now = DateTime.now().hour;
+  DateTime now = DateTime.now();
+
+  DateTime nowDay = new DateTime(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  DateTime userBirthday = new DateTime(DateTime.now().year,
+      currentUserSettings.birthday.month, currentUserSettings.birthday.day);
 
   String timeCall() {
-    if (now <= 11) {
-      text = "Good Morning  ☀️";
+    if (userBirthday.difference(nowDay).inDays.abs() == 0) {
+      return "Happy Birthday  🎂";
     }
-    if (now > 11) {
-      text = "Good Afternoon  🌞";
+    if (now.hour <= 11) {
+      return "Good Morning  ☀️";
     }
-    if (now >= 17) {
-      text = "Good Evening  🌙";
+    if (now.hour > 11) {
+      return "Good Afternoon  🌞";
+    }
+    if (now.hour >= 17) {
+      return "Good Evening  🌙";
     }
 
     return text;

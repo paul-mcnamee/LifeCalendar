@@ -4,6 +4,7 @@ import 'package:life_calendar/components/quote.dart';
 import 'package:life_calendar/components/app_bar.dart';
 import 'package:life_calendar/components/calendar_component.dart';
 import 'package:life_calendar/components/greeting_component.dart';
+import 'package:life_calendar/views/about.dart';
 import 'package:life_calendar/views/settings.dart';
 import 'package:life_calendar/views/todo_list_view.dart';
 
@@ -47,7 +48,7 @@ class HomeContainer extends StatelessWidget {
         )),
       ),
       Flexible(
-        flex: 2,
+        flex: 4,
         child: Center(
             child: Container(
           child: Quote(),
@@ -90,6 +91,8 @@ class HomeContainer extends StatelessWidget {
         navTileIcon(Icons.view_list, "past entries 7 days")));
     navTiles.add(navTile(context, 'Todo List', TodoListView(),
         navTileIcon(Icons.checklist, "To do list")));
+    navTiles.add(navTile(context, 'About', About(),
+        navTileIcon(Icons.info_outline_rounded, "about")));
     navTiles.add(navTile(context, 'Settings', Settings(),
         navTileIcon(Icons.settings, "settings")));
 

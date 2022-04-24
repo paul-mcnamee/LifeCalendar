@@ -19,11 +19,11 @@ var death = birthday.add(Duration(days: lifespanDays));
 
 var diff = currentDate.difference(birthday);
 
-var daysAlive = diff.inDays;
+var daysAlive = diff.inDays.abs();
 var weeksAlive = (daysAlive / 7).ceil();
 var yearsAlive = (daysAlive / daysInYear).ceil();
 
-var daysLeft = death.difference(currentDate).inDays;
+var daysLeft = death.difference(currentDate).inDays.abs();
 var weeksLeft = (daysLeft / 7).floor();
 var yearsLeft = (daysLeft / daysInYear).floor();
 
