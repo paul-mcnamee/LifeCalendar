@@ -1,3 +1,4 @@
+import 'package:life_calendar/components/about_row_with_button.dart';
 import 'package:life_calendar/components/app_bar.dart';
 import 'package:life_calendar/components/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,93 +45,21 @@ class About extends StatelessWidget {
                       ),
                     ),
                   ]),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Flexible(
-                        child: Text(
-                          "This LifeCalendar app was solely developed by Paul McNamee.",
-                          maxLines: null,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        StyledButton(
-                          onPressed: () {
-                            launchUrl(
-                              Uri(
-                                  scheme: 'https',
-                                  host: 'www.paulmcnamee.com',
-                                  path: '/'),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          child: const Text('VISIT PAUL'),
-                        ),
-                      ],
-                    )
-                  ]),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Flexible(
-                        child: Text(
-                          "This app code can be viewed on GitHub.",
-                          maxLines: null,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        StyledButton(
-                          onPressed: () {
-                            launchUrl(
-                              Uri(
-                                  scheme: 'https',
-                                  host: 'www.github.com',
-                                  path: '/paul-mcnamee/LifeCalendar'),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          child: const Text('VISIT GITHUB'),
-                        ),
-                      ],
-                    )
-                  ]),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Flexible(
-                        child: Text(
-                          "This app is owned by FourthMouse LLC.",
-                          maxLines: null,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        StyledButton(
-                          onPressed: () {
-                            launchUrl(
-                              Uri(
-                                  scheme: 'https',
-                                  host: 'www.fourthmouse.com',
-                                  path: '/'),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          child: const Text('VISIT FOURTHMOUSE'),
-                        ),
-                      ],
-                    )
-                  ]),
+              AboutRowWithButton(
+                  "This LifeCalendar app was solely developed by Paul McNamee.",
+                  Uri(scheme: 'https', host: 'www.paulmcnamee.com', path: '/'),
+                  "VISIT PAUL"),
+              AboutRowWithButton(
+                  "This app code can be viewed on GitHub.",
+                  Uri(
+                      scheme: 'https',
+                      host: 'www.github.com',
+                      path: '/paul-mcnamee/LifeCalendar'),
+                  "VISIT GITHUB"),
+              AboutRowWithButton(
+                  "This app is owned by FourthMouse LLC.",
+                  Uri(scheme: 'https', host: 'www.fourthmouse.com', path: '/'),
+                  "VISIT FOURTHMOUSE"),
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -141,15 +70,18 @@ class About extends StatelessWidget {
                         maxLines: null,
                       ),
                     ),
-                    Row(
-                      children: [
-                        StyledButton(
-                          onPressed: () {
-                            launchUrl(emailLaunchUri);
-                          },
-                          child: const Text('SEND EMAIL'),
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(12, 0, 0, 0),
+                      child: Row(
+                        children: [
+                          StyledButton(
+                            onPressed: () {
+                              launchUrl(emailLaunchUri);
+                            },
+                            child: const Text('SEND EMAIL'),
+                          ),
+                        ],
+                      ),
                     )
                   ]),
             ],
