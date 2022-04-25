@@ -55,7 +55,7 @@ class HomeContainer extends StatelessWidget {
           padding: EdgeInsets.all(4),
         )),
       ),
-      Flexible(
+      Expanded(
         flex: 16,
         child: GridView.count(
             padding: EdgeInsets.all(24),
