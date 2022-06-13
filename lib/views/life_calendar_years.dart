@@ -1,3 +1,4 @@
+import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/components/app_bar.dart';
 import 'package:life_calendar/components/globals.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class _LifeCalendarYearsState extends State<LifeCalendarYears> {
     return Scaffold(
       body: _buildGrid(),
       appBar: buildAppBar("Life Calendar (Years)"),
+      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 }

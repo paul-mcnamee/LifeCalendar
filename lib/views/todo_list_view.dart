@@ -1,3 +1,4 @@
+import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/components/app_bar.dart';
 import 'package:life_calendar/components/todo_list.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _TodoListState extends State<TodoListView> {
         child: const Icon(Icons.add),
       ),
       appBar: buildAppBar("Todo List"),
+      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 }

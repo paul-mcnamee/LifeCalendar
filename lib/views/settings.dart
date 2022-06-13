@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/services/notifications.dart';
 import 'package:provider/provider.dart';
 
@@ -444,6 +445,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       body: _build(),
       appBar: buildAppBar("Settings"),
+      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 }

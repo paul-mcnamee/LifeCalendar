@@ -1,4 +1,5 @@
 import 'package:life_calendar/components/about_row_with_button.dart';
+import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/components/app_bar.dart';
 import 'package:life_calendar/components/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -89,6 +90,7 @@ class About extends StatelessWidget {
         ),
       ),
       appBar: buildAppBar("Life Calendar (Months)"),
+      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 }

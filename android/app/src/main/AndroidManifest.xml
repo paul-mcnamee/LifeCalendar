@@ -18,6 +18,9 @@
    <application
         android:label="life_calendar"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8331234367729530~3684008185"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

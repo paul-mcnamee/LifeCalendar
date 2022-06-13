@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/views/todo_list_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -196,7 +197,7 @@ class _TodoItemState extends State<TodoEntry> {
                                 ],
                               ),
                           ],
-                        ))
+                        )),
               ],
             )),
       );

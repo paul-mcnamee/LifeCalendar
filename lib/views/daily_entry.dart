@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/components/post.dart';
 import 'package:life_calendar/services/authentication.dart';
 import 'package:provider/provider.dart';
@@ -249,6 +250,7 @@ class _DailyEntryState extends State<DailyEntry> {
       child: Scaffold(
         body: _currentDay(),
         appBar: buildAppBar("Daily Entry"),
+        bottomNavigationBar: Container(child: AdaptiveBannerAd()),
       ),
     );
   }

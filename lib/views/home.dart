@@ -8,6 +8,7 @@ import 'package:life_calendar/views/about.dart';
 import 'package:life_calendar/views/settings.dart';
 import 'package:life_calendar/views/todo_list_view.dart';
 
+import '../components/adaptive_banner_ad.dart';
 import 'daily_entry.dart';
 import 'entries_7d_view.dart';
 import 'life_calendar_months.dart';
@@ -26,6 +27,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: HomeContainer(),
       appBar: buildAppBar("Home"),
+      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 }
