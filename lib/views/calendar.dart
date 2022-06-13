@@ -14,7 +14,6 @@ class _StartPageState extends State<StartPage> {
     return Scaffold(
       body: CalendarComponent(),
       appBar: buildAppBar("Calendar"),
-      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 }

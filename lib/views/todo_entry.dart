@@ -209,6 +209,7 @@ class _TodoItemState extends State<TodoEntry> {
       child: Scaffold(
         body: _currentTodo(),
         appBar: buildAppBar("Add Todo"),
+        bottomNavigationBar: Container(child: AdaptiveBannerAd()),
       ),
     );
   }

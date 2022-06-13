@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/components/globals.dart';
 import 'package:life_calendar/components/post.dart';
 import 'package:life_calendar/views/daily_entry.dart';
@@ -188,6 +189,7 @@ class _CalendarComponentState extends State<CalendarComponent> {
         ],
       ),
       appBar: buildAppBar("Calendar"),
+      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 

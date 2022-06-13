@@ -1,7 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/components/app_bar.dart';
 import 'package:life_calendar/components/snackbar.dart';
 import 'package:life_calendar/components/widgets.dart';
@@ -87,7 +86,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     return Scaffold(
       body: _build(context),
       appBar: buildAppBar("Reset Password"),
-      bottomNavigationBar: Container(child: AdaptiveBannerAd()),
     );
   }
 }

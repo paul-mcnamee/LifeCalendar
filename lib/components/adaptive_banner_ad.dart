@@ -33,8 +33,6 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
 
     _anchoredAdaptiveAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      // ? 'ca-app-pub-8331234367729530/4947336003'
-      // : 'unsupported platform',
       size: size,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -60,25 +58,17 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
   Widget build(BuildContext context) => Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
-          // ListView.separated(
-          //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          //     itemBuilder: (context, index) {
-          //       return Text(
-          //         'Placeholder text',
-          //         style: TextStyle(fontSize: 24),
-          //       );
-          //     },
-          //     separatorBuilder: (context, index) {
-          //       return Container(height: 40);
-          //     },
-          //     itemCount: 20),
-          if (_anchoredAdaptiveAd != null && _isLoaded)
+          if (_anchoredAdaptiveAd != null &&
+              _anchoredAdaptiveAd?.size != null &&
+              _isLoaded)
             Container(
-              color: Colors.green,
+              color: Colors.transparent,
               width: _anchoredAdaptiveAd!.size.width.toDouble(),
               height: _anchoredAdaptiveAd!.size.height.toDouble(),
               child: AdWidget(ad: _anchoredAdaptiveAd!),
             )
+          else
+            Container(child: Text(""))
         ],
       );
 
