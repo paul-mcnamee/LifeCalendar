@@ -9,6 +9,7 @@ import 'package:life_calendar/views/settings.dart';
 import 'package:life_calendar/views/todo_list_view.dart';
 
 import '../components/adaptive_banner_ad.dart';
+import '../components/globals.dart';
 import 'daily_entry.dart';
 import 'entries_7d_view.dart';
 import 'life_calendar_months.dart';
@@ -81,14 +82,16 @@ class HomeContainer extends StatelessWidget {
           inputPost: null,
         ),
         navTileIcon(Icons.post_add, "daily entry")));
-    navTiles.add(navTile(
-        context,
-        'Life Calendar\n(Months)',
-        LifeCalendarMonths(),
-        navTileIcon(
-            Icons.calendar_view_month, "life calendar view in months")));
-    navTiles.add(navTile(context, 'Life Calendar\n(Years)', LifeCalendarYears(),
-        navTileIcon(Icons.calendar_view_week, "life calendar view in years")));
+    if (!currentUserSettings.hideLifeCalendarTiles)
+      {
+        navTiles.add(navTile(context,'Life Calendar\n(Months)',
+            LifeCalendarMonths(),
+            navTileIcon(
+                Icons.calendar_view_month, "life calendar view in months")));
+        navTiles.add(navTile(context, 'Life Calendar\n(Years)', LifeCalendarYears(),
+            navTileIcon(Icons.calendar_view_week, "life calendar view in years")));
+      }
+
     navTiles.add(navTile(context, 'Past Entries\n(7 days)', Entries7dView(),
         navTileIcon(Icons.view_list, "past entries 7 days")));
     navTiles.add(navTile(context, 'Todo List', TodoListView(),

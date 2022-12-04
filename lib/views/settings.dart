@@ -24,6 +24,7 @@ class UserSettings {
     required this.lifespanYears,
     required this.dailyNotificationTime,
     required this.dailyNotificationsPaused,
+    required this.hideLifeCalendarTiles,
     required this.userId,
   });
   String dailyEntryTemplate;
@@ -32,6 +33,7 @@ class UserSettings {
   bool inAppInfoMessagesPaused;
   DateTime dailyNotificationTime;
   bool dailyNotificationsPaused;
+  bool hideLifeCalendarTiles;
   String userId;
 }
 
@@ -51,6 +53,7 @@ void addDefaultSettings() async {
       'inAppInfoMessagesPaused': currentUserSettings.inAppInfoMessagesPaused,
       'dailyNotificationTime': currentUserSettings.dailyNotificationTime,
       'dailyNotificationsPaused': currentUserSettings.dailyNotificationsPaused,
+      'hideLifeCalendarTiles': currentUserSettings.hideLifeCalendarTiles,
     });
   }
 }
@@ -100,6 +103,10 @@ Future<void> loadUserSettings() async {
       settingsData.contains('dailyNotificationsPaused')
           ? userSettingsDoc.get('dailyNotificationsPaused')
           : defaultUserSettings.dailyNotificationsPaused;
+  currentUserSettings.hideLifeCalendarTiles =
+  settingsData.contains('hideLifeCalendarTiles')
+      ? userSettingsDoc.get('hideLifeCalendarTiles')
+      : defaultUserSettings.hideLifeCalendarTiles;
 }
 
 class Settings extends StatefulWidget {
@@ -322,6 +329,30 @@ class _SettingsState extends State<Settings> {
                   SizedBox(
                     width: 300,
                     child: CheckboxListTile(
+                      value: currentUserSettings.hideLifeCalendarTiles,
+                      title: Text("hide life calendar tiles"),
+                      onChanged: (bool? value) async {
+                        currentUserSettings.hideLifeCalendarTiles = value!;
+                        await updateSetting('hideLifeCalendarTiles',
+                            currentUserSettings.hideLifeCalendarTiles);
+                        setState(() {
+                          ShowSnackBar.normal(
+                              context,
+                              "If you sign out and sign back in, the life calendar tiles will be " +
+                              (currentUserSettings.hideLifeCalendarTiles ? "hidden" : "shown"));
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: CheckboxListTile(
                       value: currentUserSettings.dailyNotificationsPaused,
                       title: Text("pause daily reminder notifications"),
                       onChanged: (bool? value) async {
@@ -357,7 +388,6 @@ class _SettingsState extends State<Settings> {
                         await updateSetting('inAppInfoMessagesPaused',
                             currentUserSettings.inAppInfoMessagesPaused);
                         setState(() {
-                          // TODO: Firestore
                           ShowSnackBar.normal(
                               context,
                               (currentUserSettings.inAppInfoMessagesPaused

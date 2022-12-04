@@ -41,7 +41,6 @@ Future<DailyQuote> _getQuote() async {
       .get();
 
   quote = _dbQuote.data() ?? defaultQuote;
-
   if (quote.date.difference(DateTime.now()).inDays.abs() >= 1) {
 // Update firebase with the new quote from the api
     final res = await http.get(Uri.parse('http://quotes.rest/qod.json'));

@@ -35,6 +35,8 @@ var inAppInfoMessagesPaused = false;
 var dailyNotificationsPaused = false;
 var dailyNotificationTime = DateTime(2022, 4, 20, 21, 30);
 
+var hideLifeCalendarTiles = false;
+
 String dailyEntryTemplate = "What made you happy today?\n\n"
     "What did you do well today?\n\n"
     "What did you think about a lot today?\n\n"
@@ -47,6 +49,7 @@ UserSettings defaultUserSettings = new UserSettings(
   dailyEntryTemplate: dailyEntryTemplate,
   dailyNotificationTime: dailyNotificationTime,
   dailyNotificationsPaused: dailyNotificationsPaused,
+  hideLifeCalendarTiles: hideLifeCalendarTiles,
   userId: '',
 );
 
@@ -57,5 +60,6 @@ UserSettings currentUserSettings = new UserSettings(
   dailyNotificationTime: dailyNotificationTime,
   dailyNotificationsPaused: dailyNotificationsPaused,
   dailyEntryTemplate: dailyEntryTemplate,
+  hideLifeCalendarTiles: hideLifeCalendarTiles,
   userId: '',
 );
