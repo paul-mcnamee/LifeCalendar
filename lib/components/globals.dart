@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:life_calendar/views/settings.dart';
 
 const String appTitle = "Life Calendar";
@@ -28,33 +27,28 @@ DateTime death() {
   return birthday.add(Duration(days: lifespanDays()));
 }
 
-Duration diff() {
+int monthsAlive() {
   if (currentUserSettings.birthday != birthday)
     birthday = currentUserSettings.birthday;
-  return currentDate.difference(birthday);
+  return Jiffy(currentDate).diff(birthday, Units.MONTH).toInt();
 }
 
 int daysAlive() {
-  return diff().inDays.abs();
+  if (currentUserSettings.birthday != birthday)
+    birthday = currentUserSettings.birthday;
+  return Jiffy(currentDate).diff(birthday, Units.DAY).toInt();
 }
 
 int weeksAlive() {
-  return (daysAlive() / 7).ceil();
+  if (currentUserSettings.birthday != birthday)
+    birthday = currentUserSettings.birthday;
+  return Jiffy(currentDate).diff(birthday, Units.WEEK).toInt();
 }
 
 int yearsAlive() {
-  return (daysAlive() / daysInYear).ceil();
-}
-
-int daysLeft() {
-  return death().difference(currentDate).inDays.abs();
-}
-int  weeksLeft() {
-  return (daysLeft() / 7).floor();
-}
-
-int yearsLeft() {
-  return (daysLeft() / daysInYear).floor();
+  if (currentUserSettings.birthday != birthday)
+    birthday = currentUserSettings.birthday;
+  return Jiffy(currentDate).diff(birthday, Units.YEAR).toInt();
 }
 
 DateFormat dateFormatDate = DateFormat("yyyy-MM-dd");

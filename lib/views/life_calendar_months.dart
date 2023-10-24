@@ -2,6 +2,7 @@ import 'package:life_calendar/components/adaptive_banner_ad.dart';
 import 'package:life_calendar/components/app_bar.dart';
 import 'package:life_calendar/components/globals.dart';
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 
 class LifeCalendarMonths extends StatefulWidget {
   const LifeCalendarMonths({Key? key}) : super(key: key);
@@ -19,12 +20,12 @@ class _LifeCalendarMonthsState extends State<LifeCalendarMonths> {
       children: _buildGridTileList(13 * currentUserSettings.lifespanYears));
 
 
-  var days = daysAlive();
+  var months = monthsAlive() + yearsAlive(); // need to add num years because we use it in modulo division
   Widget _gridTile(int index) => Container(
         // TODO: get color from the user data if an entry is present for that week
         color: index % 13 == 0
             ? null
-            : index < days / 30
+            : index < months
                 ? Colors.white70
                 : Colors.black,
         height: MediaQuery.of(context).size.height / 90,
