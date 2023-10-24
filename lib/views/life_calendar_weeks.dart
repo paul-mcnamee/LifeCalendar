@@ -18,9 +18,10 @@ class _LifeCalendarWeeksState extends State<LifeCalendarWeeks> {
       crossAxisCount: 52,
       children: _buildGridTileList(52 * currentUserSettings.lifespanYears));
 
+  var weeks = weeksAlive();
   Widget _gridTile(int index) => Container(
         // TODO: get color from the user data if an entry is present for that week
-        color: index < weeksAlive ? Colors.white70 : Colors.black,
+        color: index < weeks ? Colors.white70 : Colors.black,
         height: MediaQuery.of(context).size.height / 90,
       );
 

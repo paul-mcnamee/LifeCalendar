@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:intl/intl.dart';
 import 'package:life_calendar/views/settings.dart';
 
@@ -13,19 +15,47 @@ var birthday = new DateTime(1989, 12, 12);
 var daysInYear = 365.242196;
 
 int lifespanYears = 78;
-var lifespanDays = (daysInYear * lifespanYears).ceil();
 
-var death = birthday.add(Duration(days: lifespanDays));
+int lifespanDays() {
+  if (currentUserSettings.lifespanYears != lifespanYears)
+    lifespanYears = currentUserSettings.lifespanYears;
+  return (daysInYear * lifespanYears).ceil();
+}
 
-var diff = currentDate.difference(birthday);
+DateTime death() {
+  if (currentUserSettings.birthday != birthday)
+      birthday = currentUserSettings.birthday;
+  return birthday.add(Duration(days: lifespanDays()));
+}
 
-var daysAlive = diff.inDays.abs();
-var weeksAlive = (daysAlive / 7).ceil();
-var yearsAlive = (daysAlive / daysInYear).ceil();
+Duration diff() {
+  if (currentUserSettings.birthday != birthday)
+    birthday = currentUserSettings.birthday;
+  return currentDate.difference(birthday);
+}
 
-var daysLeft = death.difference(currentDate).inDays.abs();
-var weeksLeft = (daysLeft / 7).floor();
-var yearsLeft = (daysLeft / daysInYear).floor();
+int daysAlive() {
+  return diff().inDays.abs();
+}
+
+int weeksAlive() {
+  return (daysAlive() / 7).ceil();
+}
+
+int yearsAlive() {
+  return (daysAlive() / daysInYear).ceil();
+}
+
+int daysLeft() {
+  return death().difference(currentDate).inDays.abs();
+}
+int  weeksLeft() {
+  return (daysLeft() / 7).floor();
+}
+
+int yearsLeft() {
+  return (daysLeft() / daysInYear).floor();
+}
 
 DateFormat dateFormatDate = DateFormat("yyyy-MM-dd");
 NumberFormat numberFormatNoTrailing = NumberFormat("#", "en-us");

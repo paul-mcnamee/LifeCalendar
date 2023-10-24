@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:life_calendar/components/adaptive_banner_ad.dart';
+import 'package:life_calendar/views/settings.dart';
 import 'package:provider/provider.dart';
 
 import 'theme/themes.dart';
@@ -27,9 +28,9 @@ Future<void> main() async {
   await initializeDateFormatting();
   tz.initializeTimeZones();
   await NotificationService().initNotification();
+
   MobileAds.instance.initialize();
 
-  // await loadUserSettings();
   runApp(
     ChangeNotifierProvider(
       create: (context) => ApplicationState(),
@@ -63,7 +64,11 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null)
-      return Home();
+      {
+        loadUserSettings();
+        return Home();
+      }
+
     else
       return Scaffold(
         body: Consumer<ApplicationState>(
