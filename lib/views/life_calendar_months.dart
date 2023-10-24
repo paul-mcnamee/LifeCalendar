@@ -16,7 +16,7 @@ class _LifeCalendarMonthsState extends State<LifeCalendarMonths> {
       mainAxisSpacing: 2,
       crossAxisSpacing: 2,
       crossAxisCount: 26,
-      children: _buildGridTileList(14 * currentUserSettings.lifespanYears));
+      children: _buildGridTileList(13 * currentUserSettings.lifespanYears));
 
 
   var days = daysAlive();
